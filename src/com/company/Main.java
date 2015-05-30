@@ -6,8 +6,9 @@ public class Main {
 
     public static void main(String[] args) {
 	    ImageToHack ith = new ImageToHack();
-        ith.readImage("TestImage.jpg");
+        ith.readImage("FullSizeTestImage.jpg");
         ith.printImageToConsole();
+        boolean [][]bol = ith.ImageToBinary();
     }
 
     public static void printWorkingDir(){
