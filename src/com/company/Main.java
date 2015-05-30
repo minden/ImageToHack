@@ -5,7 +5,9 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
+	    ImageToHack ith = new ImageToHack();
+        ith.readImage("TestImage.jpg");
+        ith.printImageToConsole();
     }
 
     public static void printWorkingDir(){
