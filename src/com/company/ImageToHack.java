@@ -59,8 +59,8 @@ public class ImageToHack {
             for(int i = 0; i < 32; i++){
                 binaryString = "";
                 for(int j = 0; j<15;j++){
-                    if(input[x][y] == true) binaryString = binaryString + "1";
-                    else binaryString = binaryString + "0";
+                    if(input[x][y] == true) binaryString = "1" + binaryString ;
+                    else binaryString = "0" + binaryString ;
                     if((x+1)<512) x++; else x=0;
 
                 }
