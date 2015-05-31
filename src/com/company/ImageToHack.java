@@ -65,10 +65,10 @@ public class ImageToHack {
         return output;
     }
 
-    public void writeDecimalToFile(int[][] input) throws IOException {
+    public void writeDecimalToFile(int[][] input, String outputFileName) throws IOException {
 
         //Initialize writing to a file
-        File fout = new File("out.asm");
+        File fout = new File(outputFileName);
         FileOutputStream fos = new FileOutputStream(fout);
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
 

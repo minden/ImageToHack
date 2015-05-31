@@ -21,9 +21,12 @@ public class Main {
         int[][] finish = ith.BinaryArrayToDecimalArray(bol);
         System.out.println("Binary array successfully transformed to decimals");
 
-        /* Write the decimal Array and the hack instructions to a file*/
-        ith.writeDecimalToFile(finish);
-        System.out.println("Assembler file successfully written to file system");
+        /* If output file is specified write the decimal Array and the hack instructions to a file*/
+        if (args.length > 1) {
+            ith.writeDecimalToFile(finish, args[1]);
+            System.out.println("Assembler file successfully written to file system");
+        }
+        else System.out.println("Please specify an output file.");
     }
 
 }
