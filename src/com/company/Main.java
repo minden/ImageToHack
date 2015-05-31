@@ -6,8 +6,8 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        if (args.length < 1) {
-            System.out.println("Please specify an imput image file.");
+        if (args.length < 2) {
+            System.out.println("Please specify an imput image file and an output asm file.");
             System.exit(1);
         }
 
@@ -26,12 +26,10 @@ public class Main {
         int[][] finish = ith.BinaryArrayToDecimalArray(bol);
         System.out.println("Binary array successfully transformed to decimals");
 
-        /* If output file is specified write the decimal Array and the hack instructions to a file*/
-        if (args.length > 1) {
-            ith.writeDecimalToFile(finish, args[1]);
-            System.out.println("Assembler file successfully written to file system");
-        }
-        else System.out.println("Please specify an output file.");
+        /* Write the decimal Array and the hack instructions to a file*/
+        ith.writeDecimalToFile(finish, args[1]);
+        System.out.println("Assembler file successfully written to file system");
+
     }
 
 }
