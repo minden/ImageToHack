@@ -16,6 +16,7 @@ public class ImageToHack {
             this.img = ImageIO.read(new File(path));
         } catch (IOException e){
             System.out.println("Could not find the image at " + path);
+            System.exit(1);
         }
     }
 

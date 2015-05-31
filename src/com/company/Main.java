@@ -6,11 +6,11 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
+        /*Check if all arguments are given*/
         if (args.length < 2) {
-            System.out.println("Please specify an imput image file and an output asm file.");
+            System.out.println("Please specify an input image file and an output asm file.");
             System.exit(1);
         }
-
 
 	    ImageToHack ith = new ImageToHack();
 
