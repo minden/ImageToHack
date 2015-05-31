@@ -19,18 +19,9 @@ public class ImageToHack {
         }
     }
 
-    public void printImageToConsole (){
-        int height = img.getHeight();
-        int width = img.getWidth();
 
-        for (int y = 0; y < height; y++){
-            for (int x = 0; x <width; x++){
-                System.out.println(img.getRGB(x,y));
-            }
-        }
-    }
     //returns String with (0|1) for each pixel
-    public boolean[][] ImageToBinary(){
+    public boolean[][] ImageToBinaryArray(){
         int height = 256;
         int width = 512;
         boolean [][]output = new boolean[512][256];
@@ -50,7 +41,7 @@ public class ImageToHack {
 
     }
 
-    public int[][] BinaryToDecimal(boolean[][] input){
+    public int[][] BinaryArrayToDecimalArray(boolean[][] input){
         int[][] output = new int[256][32];
         String binaryString = "";
         int x = 0;

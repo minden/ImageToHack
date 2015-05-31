@@ -7,9 +7,9 @@ public class Main {
     public static void main(String[] args) throws IOException {
 	    ImageToHack ith = new ImageToHack();
         ith.readImage("FullSizeTestImage.jpg");
-        ith.printImageToConsole();
-        boolean [][]bol = ith.ImageToBinary();
-        int[][] finish = ith.BinaryToDecimal(bol);
+        //ith.printImageToConsole();
+        boolean [][]bol = ith.ImageToBinaryArray();
+        int[][] finish = ith.BinaryArrayToDecimalArray(bol);
         ith.writeDecimalToFile(finish);
     }
 
