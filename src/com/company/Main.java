@@ -6,11 +6,16 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
+        if (args.length < 1) {
+            System.out.println("Please specify an imput image file.");
+            System.exit(1);
+        }
+
 
 	    ImageToHack ith = new ImageToHack();
 
         /* Load Image */
-        ith.readImage("FullSizeTestImage.jpg");
+        ith.readImage(args[0]);
         System.out.println("Image file successfully loaded");
 
         /* Build two dimensional boolean array of pictures */
