@@ -20,7 +20,7 @@ public class ImageToHack {
     }
 
 
-    //returns String with (0|1) for each pixel
+    //returns array of booleans for each pixel
     public boolean[][] ImageToBinaryArray(){
         int height = 256;
         int width = 512;
@@ -33,14 +33,13 @@ public class ImageToHack {
                     case -1: output[x][y] = false; break;
                     default: output[x][y] = true;
                 }
-
             }
         }
 
         return output;
-
     }
 
+    //converts given Array of booleans to an array of decimals with 32 15+1 bit words per row.
     public int[][] BinaryArrayToDecimalArray(boolean[][] input){
         int[][] output = new int[256][32];
         String binaryString = "";
@@ -50,10 +49,13 @@ public class ImageToHack {
             for(int i = 0; i < 32; i++){
                 binaryString = "";
                 for(int j = 0; j<15;j++){
-                    if(input[x][y] == true) binaryString = "1" + binaryString ;
-                    else binaryString = "0" + binaryString ;
-                    if((x+1)<512) x++; else x=0;
-
+                    if(input[x][y])
+                        binaryString = "1" + binaryString ;
+                    else
+                        binaryString = "0" + binaryString ;
+                    if((x+1)<512)
+                        x++;
+                    else x=0;
                 }
                 if(x+1<512) x++; else x=0;
                 output[y][i] = Integer.parseInt(binaryString,2);
@@ -64,38 +66,33 @@ public class ImageToHack {
     }
 
     public void writeDecimalToFile(int[][] input) throws IOException {
+
+        //Initialize writing to a file
         File fout = new File("out.asm");
         FileOutputStream fos = new FileOutputStream(fout);
-
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
 
-
+        //First position of screen in RAM
         int i = 16384;
-
 
         for (int y = 0; y < 256; y++){
             for (int x = 0; x < 32; x++){
 
                 if(input[y][x]  >0){
+                    bw.write("@" + input[y][x]);
+                    bw.newLine();
+                    bw.write("D = A");
+                    bw.newLine();
+                    bw.write("@" + i);
 
-                bw.write("@" + input[y][x]);
-                bw.newLine();
-                bw.write("D = A");
-                bw.newLine();
-                bw.write("@" + i);
-
-                bw.newLine();
-                bw.write("M = D");
-                bw.newLine();}
+                    bw.newLine();
+                    bw.write("M = D");
+                    bw.newLine();
+                }
                 i++;
-
             }
-
         }
 
         bw.close();
-
     }
-
-
 }

@@ -5,25 +5,21 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) throws IOException {
+
+
 	    ImageToHack ith = new ImageToHack();
+
+        /* Load Image */
         ith.readImage("FullSizeTestImage.jpg");
-        //ith.printImageToConsole();
+
+        /* Build two dimensional boolean array of pictures */
         boolean [][]bol = ith.ImageToBinaryArray();
+
+        /* Translate each 15+1 bit boolean block to one decimal number */
         int[][] finish = ith.BinaryArrayToDecimalArray(bol);
+
+        /* Write the decimal Array and the hack instructions to a file*/
         ith.writeDecimalToFile(finish);
     }
 
-    public static void printWorkingDir(){
-
-        String current = null;
-        try {
-            current = new java.io.File( "." ).getCanonicalPath();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Current dir:"+current);
-        String currentDir = System.getProperty("user.dir");
-        System.out.println("Current dir using System:" +currentDir);
-
-    }
 }
