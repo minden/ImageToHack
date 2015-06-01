@@ -103,8 +103,8 @@ public class ImageToHack {
     }
 
     //converts given Array of booleans to an array of binaries with 32 15+1 bit words per row.
-    public int[][] BooleanArrayToDualArray(boolean[][] input){
-        int[][] output = new int[256][32];
+    public String[][] BooleanArrayToDualArray(boolean[][] input){
+        String[][] output = new String[256][32];
         String binaryString = "";
         int x = 0;
 
@@ -122,14 +122,14 @@ public class ImageToHack {
                 }
                 if(x+1<512) x++; else x=0;
                 while (binaryString.length() <16) binaryString = "0" + binaryString;
-                output[y][i] = Integer.parseInt(binaryString);
+                output[y][i] = binaryString;
             }
         }
 
         return output;
     }
 
-    public void writeDualToFile(int[][] input, String outputFileName) throws IOException {
+    public void writeDualToFile(String[][] input, String outputFileName) throws IOException {
 
         //Initialize writing to a file
         File fout = new File(outputFileName);
@@ -142,7 +142,7 @@ public class ImageToHack {
         for (int y = 0; y < 256; y++){
             for (int x = 0; x < 32; x++){
 
-                if(input[y][x]  >0){
+                if(!(input[y][x].equals("0000000000000000"))){
                     bw.write(input[y][x]);
                     bw.newLine();
                     bw.write("1110110000010000");

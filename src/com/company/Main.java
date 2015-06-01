@@ -43,7 +43,7 @@ public class Main {
         else if(args[1].toString().equals("hack")){
 
             /* Translate each 15+1 bit boolean block to one dual number */
-            int[][] finish = ith.BooleanArrayToDualArray(bol);
+            String[][] finish = ith.BooleanArrayToDualArray(bol);
             System.out.println("Binary array successfully transformed to decimals");
 
             /* Write the decimal Array and the hack instructions to a file*/
