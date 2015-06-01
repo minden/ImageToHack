@@ -12,6 +12,13 @@ public class Main {
             System.exit(1);
         }
 
+        //Check if second parameter is legal
+        if(!(args[1].toString().equals("asm") || args[1].toString().equals("hack"))) {
+            System.out.println("Not a correct parameter for the output file format (asm|hack): " + args[1]);
+            System.exit(1);
+        }
+
+
 	    ImageToHack ith = new ImageToHack();
 
         /* Load Image */
@@ -22,7 +29,7 @@ public class Main {
         boolean [][]bol = ith.ImageToBinaryArray();
         System.out.println("Image successfully transfered to boolean array");
 
-        if (args[1] == "asm") {
+        if (args[1].toString().equals("asm")) {
 
             /* Translate each 15+1 bit boolean block to one decimal number */
             int[][] finish = ith.BooleanArrayToDecimalArray(bol);
@@ -33,7 +40,7 @@ public class Main {
             System.out.println("Assembler file successfully written to file system");
         }
 
-        else if(args[1] == "hack"){
+        else if(args[1].toString().equals("hack")){
 
             /* Translate each 15+1 bit boolean block to one dual number */
             int[][] finish = ith.BooleanArrayToDualArray(bol);
@@ -41,14 +48,11 @@ public class Main {
 
             /* Write the decimal Array and the hack instructions to a file*/
             ith.writeDualToFile(finish, args[2]);
-            System.out.println("Assembler file successfully written to file system");
+            System.out.println("Hack file successfully written to file system");
 
         }
 
-        else {
-            System.out.println("Not a correct parameter for the output file format (asm|hack)");
-            System.exit(1);
-        }
+
 
     }
 
