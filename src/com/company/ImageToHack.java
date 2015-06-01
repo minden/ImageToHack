@@ -25,6 +25,11 @@ public class ImageToHack {
     public boolean[][] ImageToBinaryArray(){
         int height = 256;
         int width = 512;
+
+        //In the case that the image is smaller than the hack screen
+        if (img.getHeight() < 256)  height = img.getHeight();
+        if (img.getWidth() < 512) width = img.getWidth();
+
         boolean [][]output = new boolean[512][256];
 
         for (int y = 0; y < height; y++){

@@ -5,11 +5,11 @@ How to run the ImageToHack Program:
 Call the program with the following parameters: input image file, output asm file
 
 Example:
-    java ImageToHack.jar input.jpg output.asm
+    java -jar ImageToHack.jar input.jpg output.asm
 
 If the output asm file does not exist yet, ImageToHack creates it automatically.
 
-Supported image formats: jpg, png, 
+Supported image formats: jpg, png,
 
 
 
