@@ -7,8 +7,8 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         /*Check if all arguments are given*/
-        if (args.length < 2) {
-            System.out.println("Please specify an input image file and an output asm file.");
+        if (args.length < 3) {
+            System.out.println("Please specify an input image file, a parameter for the output format, and an output file.");
             System.exit(1);
         }
 
@@ -22,13 +22,33 @@ public class Main {
         boolean [][]bol = ith.ImageToBinaryArray();
         System.out.println("Image successfully transfered to boolean array");
 
-        /* Translate each 15+1 bit boolean block to one decimal number */
-        int[][] finish = ith.BinaryArrayToDecimalArray(bol);
-        System.out.println("Binary array successfully transformed to decimals");
+        if (args[1] == "asm") {
 
-        /* Write the decimal Array and the hack instructions to a file*/
-        ith.writeDecimalToFile(finish, args[1]);
-        System.out.println("Assembler file successfully written to file system");
+            /* Translate each 15+1 bit boolean block to one decimal number */
+            int[][] finish = ith.BooleanArrayToDecimalArray(bol);
+            System.out.println("Binary array successfully transformed to decimals");
+
+            /* Write the decimal Array and the hack instructions to a file*/
+            ith.writeDecimalToFile(finish, args[2]);
+            System.out.println("Assembler file successfully written to file system");
+        }
+
+        else if(args[1] == "hack"){
+
+            /* Translate each 15+1 bit boolean block to one dual number */
+            int[][] finish = ith.BooleanArrayToDualArray(bol);
+            System.out.println("Binary array successfully transformed to decimals");
+
+            /* Write the decimal Array and the hack instructions to a file*/
+            ith.writeDualToFile(finish, args[2]);
+            System.out.println("Assembler file successfully written to file system");
+
+        }
+
+        else {
+            System.out.println("Not a correct parameter for the output file format (asm|hack)");
+            System.exit(1);
+        }
 
     }
 

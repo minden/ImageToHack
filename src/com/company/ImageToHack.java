@@ -46,7 +46,7 @@ public class ImageToHack {
     }
 
     //converts given Array of booleans to an array of decimals with 32 15+1 bit words per row.
-    public int[][] BinaryArrayToDecimalArray(boolean[][] input){
+    public int[][] BooleanArrayToDecimalArray(boolean[][] input){
         int[][] output = new int[256][32];
         String binaryString = "";
         int x = 0;
@@ -93,6 +93,65 @@ public class ImageToHack {
 
                     bw.newLine();
                     bw.write("M = D");
+                    bw.newLine();
+                }
+                i++;
+            }
+        }
+
+        bw.close();
+    }
+
+    //converts given Array of booleans to an array of binaries with 32 15+1 bit words per row.
+    public int[][] BooleanArrayToDualArray(boolean[][] input){
+        int[][] output = new int[256][32];
+        String binaryString = "";
+        int x = 0;
+
+        for (int y = 0; y < 256; y++){
+            for(int i = 0; i < 32; i++){
+                binaryString = "";
+                for(int j = 0; j<15;j++){
+                    if(input[x][y])
+                        binaryString = "1" + binaryString ;
+                    else
+                        binaryString = "0" + binaryString ;
+                    if((x+1)<512)
+                        x++;
+                    else x=0;
+                }
+                if(x+1<512) x++; else x=0;
+                while (binaryString.length() <16) binaryString = "0" + binaryString;
+                output[y][i] = Integer.parseInt(binaryString);
+            }
+        }
+
+        return output;
+    }
+
+    public void writeDualToFile(int[][] input, String outputFileName) throws IOException {
+
+        //Initialize writing to a file
+        File fout = new File(outputFileName);
+        FileOutputStream fos = new FileOutputStream(fout);
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+
+        //First position of screen in RAM
+        int i = 16384;
+
+        for (int y = 0; y < 256; y++){
+            for (int x = 0; x < 32; x++){
+
+                if(input[y][x]  >0){
+                    bw.write(input[y][x]);
+                    bw.newLine();
+                    bw.write("1110110000010000");
+                    bw.newLine();
+                    String dualI = Integer.toBinaryString(i);
+                    while (dualI.length() < 16) dualI = "0" + dualI;
+                    bw.write(dualI);
+                    bw.newLine();
+                    bw.write("1110001100001000");
                     bw.newLine();
                 }
                 i++;
