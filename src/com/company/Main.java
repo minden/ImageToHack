@@ -29,26 +29,24 @@ public class Main {
         boolean [][]bol = ith.ImageToBinaryArray();
         System.out.println("Image successfully transfered to boolean array");
 
-        /* Translate each 15+1 bit boolean block to one dual number */
-        String[][] finish = ith.BooleanArrayToDualArray(bol);
+        /* Translate each 16 bit boolean block to one dual number as a String */
+        String[][] zeroAndOneStringArray = ith.BooleanArrayToDualArray(bol);
         System.out.println("Binary array successfully transformed to decimals");
 
         if (args[1].toString().equals("asm")) {
 
             /* Write the decimal Array and the hack instructions to a file*/
-            ith.writeDecimalToFile(finish, args[2]);
+            ith.writeASMFile(zeroAndOneStringArray, args[2]);
             System.out.println("Assembler file successfully written to file system");
         }
 
         else if(args[1].toString().equals("hack")){
 
             /* Write the decimal Array and the hack instructions to a file*/
-            ith.writeDualToFile(finish, args[2]);
+            ith.writeHACKFile(zeroAndOneStringArray, args[2]);
             System.out.println("Hack file successfully written to file system");
 
         }
-
-
 
     }
 

@@ -48,7 +48,7 @@ public class ImageToHack {
     }
 
 
-    //converts given Array of booleans to an array of binaries with 32 15+1 bit words per row.
+    //converts given Array of booleans to an array of binaries with 32 16 bit words per row.
     public String[][] BooleanArrayToDualArray(boolean[][] input){
         String[][] output = new String[256][32];
         String binaryString = "";
@@ -76,7 +76,7 @@ public class ImageToHack {
     }
 
 
-    public void writeDecimalToFile(String[][] input, String outputFileName) throws IOException {
+    public void writeASMFile(String[][] input, String outputFileName) throws IOException {
 
         //Initialize writing to a file
         File fout = new File(outputFileName);
@@ -90,6 +90,8 @@ public class ImageToHack {
             for (int x = 0; x < 32; x++){
 
                 if(!(input[y][x].equals("0000000000000000"))){
+
+                    /* If only the first pixel is black */
                     if(input[y][x].equals("1000000000000000")){
                         bw.write("@ 32767");
                         bw.newLine();
@@ -97,12 +99,15 @@ public class ImageToHack {
                         bw.newLine();
                     }
                     else {
+                        /* If the value is negative */
                         if (input[y][x].substring(0, 1).equals("1")) {
                             bw.write("@" + Integer.parseInt(absoluteNegatedBinary(input[y][x]),2));
                             bw.newLine();
                             bw.write("D=-A");
                             bw.newLine();
-                        } else {
+                        }
+                        /* If the value is positive */
+                        else {
                             bw.write("@" + Integer.parseInt(input[y][x],2));
                             bw.newLine();
                             bw.write("D=A");
@@ -124,7 +129,7 @@ public class ImageToHack {
 
 
 
-    public void writeDualToFile(String[][] input, String outputFileName) throws IOException {
+    public void writeHACKFile(String[][] input, String outputFileName) throws IOException {
 
         //Initialize writing to a file
         File fout = new File(outputFileName);
@@ -138,6 +143,8 @@ public class ImageToHack {
             for (int x = 0; x < 32; x++){
 
                 if(!(input[y][x].equals("0000000000000000"))){
+
+                    /* If only the first pixel is black */
                     if(input[y][x].equals("1000000000000000")){
                         bw.write("0111111111111111");
                         bw.newLine();
@@ -145,12 +152,15 @@ public class ImageToHack {
                         bw.newLine();
                     }
                     else {
+                        /* If the value is negative */
                         if (input[y][x].substring(0, 1).equals("1")) {
                             bw.write(absoluteNegatedBinary(input[y][x]));
                             bw.newLine();
                             bw.write("1110110011010000");
                             bw.newLine();
-                        } else {
+                        }
+                        /* If the value is positive */
+                        else {
                             bw.write("0" + input[y][x]);
                             bw.newLine();
                             bw.write("1110110000010000");
