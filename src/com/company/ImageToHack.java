@@ -4,6 +4,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
+import static java.lang.Math.abs;
+
 /**
  * Created by indenml on 30.05.15.
  */
@@ -111,7 +113,7 @@ public class ImageToHack {
         for (int y = 0; y < 256; y++){
             for(int i = 0; i < 32; i++){
                 binaryString = "";
-                for(int j = 0; j<15;j++){
+                for(int j = 0; j<16;j++){
                     if(input[x][y])
                         binaryString = "1" + binaryString ;
                     else
@@ -120,7 +122,7 @@ public class ImageToHack {
                         x++;
                     else x=0;
                 }
-                if(x+1<512) x++; else x=0;
+                //if(x+1<512) x++; else x=0;
                 while (binaryString.length() <16) binaryString = "0" + binaryString;
                 output[y][i] = binaryString;
             }
@@ -142,11 +144,28 @@ public class ImageToHack {
         for (int y = 0; y < 256; y++){
             for (int x = 0; x < 32; x++){
 
+
                 if(!(input[y][x].equals("0000000000000000"))){
-                    bw.write(input[y][x]);
-                    bw.newLine();
-                    bw.write("1110110000010000");
-                    bw.newLine();
+                    System.out.println(input[y][x]);
+                    if(input[y][x].equals("1000000000000000")){
+                        bw.write("0111111111111111");
+                        bw.newLine();
+                        bw.write("1110110111010000");
+                        bw.newLine();
+                    }
+                    else {
+                        if (input[y][x].substring(0, 1).equals("1")) {
+                            bw.write(negateBinary(input[y][x]));
+                            bw.newLine();
+                            bw.write("1110110011010000");
+                            bw.newLine();
+                        } else {
+                            bw.write("0" + input[y][x]);
+                            bw.newLine();
+                            bw.write("1110110000010000");
+                            bw.newLine();
+                        }
+                    }
                     String dualI = Integer.toBinaryString(i);
                     while (dualI.length() < 16) dualI = "0" + dualI;
                     bw.write(dualI);
@@ -159,5 +178,20 @@ public class ImageToHack {
         }
 
         bw.close();
+    }
+
+    public String negateBinary(String input){
+
+        System.out.println("Input is: " + input);
+        Integer outputInt = Integer.parseInt(input.substring(1,16),2);
+        System.out.println("Integer parsed" + outputInt);
+        outputInt = abs( outputInt - 32768);
+        System.out.println("Integer parsed" + outputInt);
+        String outputString = Integer.toBinaryString(outputInt);
+        while(outputString.length() < 16){outputString = "0" + outputString;}
+        System.out.println("Output is: " + outputString);
+        return outputString;
+
+
     }
 }
