@@ -161,7 +161,7 @@ public class ImageToHack {
                         }
                         /* If the value is positive */
                         else {
-                            bw.write("0" + input[y][x]);
+                            bw.write(input[y][x]);
                             bw.newLine();
                             bw.write("1110110000010000");
                             bw.newLine();
