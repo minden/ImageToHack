@@ -29,11 +29,11 @@ public class Main {
         boolean [][]bol = ith.ImageToBinaryArray();
         System.out.println("Image successfully transfered to boolean array");
 
-        if (args[1].toString().equals("asm")) {
+        /* Translate each 15+1 bit boolean block to one dual number */
+        String[][] finish = ith.BooleanArrayToDualArray(bol);
+        System.out.println("Binary array successfully transformed to decimals");
 
-            /* Translate each 15+1 bit boolean block to one decimal number */
-            int[][] finish = ith.BooleanArrayToDecimalArray(bol);
-            System.out.println("Binary array successfully transformed to decimals");
+        if (args[1].toString().equals("asm")) {
 
             /* Write the decimal Array and the hack instructions to a file*/
             ith.writeDecimalToFile(finish, args[2]);
@@ -41,10 +41,6 @@ public class Main {
         }
 
         else if(args[1].toString().equals("hack")){
-
-            /* Translate each 15+1 bit boolean block to one dual number */
-            String[][] finish = ith.BooleanArrayToDualArray(bol);
-            System.out.println("Binary array successfully transformed to decimals");
 
             /* Write the decimal Array and the hack instructions to a file*/
             ith.writeDualToFile(finish, args[2]);

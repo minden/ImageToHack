@@ -47,62 +47,6 @@ public class ImageToHack {
         return output;
     }
 
-    //converts given Array of booleans to an array of decimals with 32 15+1 bit words per row.
-    public int[][] BooleanArrayToDecimalArray(boolean[][] input){
-        int[][] output = new int[256][32];
-        String binaryString = "";
-        int x = 0;
-
-        for (int y = 0; y < 256; y++){
-            for(int i = 0; i < 32; i++){
-                binaryString = "";
-                for(int j = 0; j<15;j++){
-                    if(input[x][y])
-                        binaryString = "1" + binaryString ;
-                    else
-                        binaryString = "0" + binaryString ;
-                    if((x+1)<512)
-                        x++;
-                    else x=0;
-                }
-                if(x+1<512) x++; else x=0;
-                output[y][i] = Integer.parseInt(binaryString,2);
-            }
-        }
-
-        return output;
-    }
-
-    public void writeDecimalToFile(int[][] input, String outputFileName) throws IOException {
-
-        //Initialize writing to a file
-        File fout = new File(outputFileName);
-        FileOutputStream fos = new FileOutputStream(fout);
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
-
-        //First position of screen in RAM
-        int i = 16384;
-
-        for (int y = 0; y < 256; y++){
-            for (int x = 0; x < 32; x++){
-
-                if(input[y][x]  >0){
-                    bw.write("@" + input[y][x]);
-                    bw.newLine();
-                    bw.write("D = A");
-                    bw.newLine();
-                    bw.write("@" + i);
-
-                    bw.newLine();
-                    bw.write("M = D");
-                    bw.newLine();
-                }
-                i++;
-            }
-        }
-
-        bw.close();
-    }
 
     //converts given Array of booleans to an array of binaries with 32 15+1 bit words per row.
     public String[][] BooleanArrayToDualArray(boolean[][] input){
@@ -131,6 +75,55 @@ public class ImageToHack {
         return output;
     }
 
+
+    public void writeDecimalToFile(String[][] input, String outputFileName) throws IOException {
+
+        //Initialize writing to a file
+        File fout = new File(outputFileName);
+        FileOutputStream fos = new FileOutputStream(fout);
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+
+        //First position of screen in RAM
+        int i = 16384;
+
+        for (int y = 0; y < 256; y++){
+            for (int x = 0; x < 32; x++){
+
+                if(!(input[y][x].equals("0000000000000000"))){
+                    if(input[y][x].equals("1000000000000000")){
+                        bw.write("@ 32767");
+                        bw.newLine();
+                        bw.write("D=A+1");
+                        bw.newLine();
+                    }
+                    else {
+                        if (input[y][x].substring(0, 1).equals("1")) {
+                            bw.write("@" + Integer.parseInt(absoluteNegatedBinary(input[y][x]),2));
+                            bw.newLine();
+                            bw.write("D=-A");
+                            bw.newLine();
+                        } else {
+                            bw.write("@" + Integer.parseInt(input[y][x],2));
+                            bw.newLine();
+                            bw.write("D=A");
+                            bw.newLine();
+                        }
+                    }
+
+                    bw.write("@" +  i);
+                    bw.newLine();
+                    bw.write("M=D");
+                    bw.newLine();
+                }
+                i++;
+            }
+        }
+
+        bw.close();
+    }
+
+
+
     public void writeDualToFile(String[][] input, String outputFileName) throws IOException {
 
         //Initialize writing to a file
@@ -144,9 +137,7 @@ public class ImageToHack {
         for (int y = 0; y < 256; y++){
             for (int x = 0; x < 32; x++){
 
-
                 if(!(input[y][x].equals("0000000000000000"))){
-                    System.out.println(input[y][x]);
                     if(input[y][x].equals("1000000000000000")){
                         bw.write("0111111111111111");
                         bw.newLine();
@@ -155,7 +146,7 @@ public class ImageToHack {
                     }
                     else {
                         if (input[y][x].substring(0, 1).equals("1")) {
-                            bw.write(negateBinary(input[y][x]));
+                            bw.write(absoluteNegatedBinary(input[y][x]));
                             bw.newLine();
                             bw.write("1110110011010000");
                             bw.newLine();
@@ -180,18 +171,13 @@ public class ImageToHack {
         bw.close();
     }
 
-    public String negateBinary(String input){
+    public String absoluteNegatedBinary(String input){
 
-        System.out.println("Input is: " + input);
         Integer outputInt = Integer.parseInt(input.substring(1,16),2);
-        System.out.println("Integer parsed" + outputInt);
         outputInt = abs( outputInt - 32768);
-        System.out.println("Integer parsed" + outputInt);
         String outputString = Integer.toBinaryString(outputInt);
         while(outputString.length() < 16){outputString = "0" + outputString;}
-        System.out.println("Output is: " + outputString);
         return outputString;
-
 
     }
 }
